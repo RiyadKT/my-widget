@@ -2,56 +2,65 @@ document.addEventListener("DOMContentLoaded", function () {
     const toggleWidget = document.getElementById("toggleWidget");
     const widget = document.getElementById("widget");
     const closeWidget = document.getElementById("closeWidget");
-    const sendButton = document.getElementById("sendButton");
-    const userInputField = document.getElementById("userInput");
+    const notes = document.querySelectorAll(".note"); // Select all note buttons
+    const sendButton = document.getElementById("findPerfumeButton"); // Send button
     const responseContainer = document.getElementById("responseContainer");
 
-    userInputField.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission (if inside a form)
-            sendButton.click(); // ✅ Triggers the button click
-            userInputField.value = ""; // ✅ Clears input field
-        }
+    let selectedNotes = []; // Array to store selected notes
+
+  
+
+    // Handle Note Selection
+    notes.forEach(button => {
+        button.addEventListener("click", function () {
+            const note = this.getAttribute("data-value"); // Get the note value
+
+            if (selectedNotes.includes(note)) {
+                // If the note is already selected, deselect it
+                selectedNotes = selectedNotes.filter(n => n !== note);
+                this.classList.remove("selected");
+                this.style.backgroundColor = ""; // Reset background color
+                this.style.color = ""; // Reset text color
+            } else {
+                // If the note is not selected, select it
+                selectedNotes.push(note);
+                this.classList.add("selected");
+                this.style.backgroundColor = "black"; // Set background to black
+                this.style.color = "white"; // Set text to white
+            }
+        });
     });
 
-    if (!toggleWidget || !widget || !closeWidget || !sendButton || !userInputField || !responseContainer) {
-        console.error("One or more required elements are missing in HTML.");
-        return;
-    }
-
-    // Open widget & hide bubble
-    toggleWidget.addEventListener("click", function () {
-        widget.classList.remove("hidden");
-        toggleWidget.style.display = "none"; // Hide floating button
-    });
-
-    // Close widget & show bubble again
-    closeWidget.addEventListener("click", function () {
-        widget.classList.add("hidden");
-        toggleWidget.style.display = "block"; // Show floating button again
-    });
-
-    // Send user input to Flask server
-    sendButton.addEventListener("click", function () {
-        const userMessage = userInputField.value.trim();
-        if (!userMessage) {
-            responseContainer.innerHTML = "<p>Please enter a description.</p>";
+    // Send Selection to Backend
+    sendButton.addEventListener("click", async function () {
+        if (selectedNotes.length === 0) {
+            // If no notes are selected, show an error message
+            responseContainer.innerHTML = "<p>Please select at least one note.</p>";
             return;
         }
-    
-        getRecommendation(userMessage);
-        userInputField.value = ""; // ✅ Clears input field
-    });
-    
 
+        // Call the getRecommendation function with the selected notes
+        await getRecommendation(selectedNotes.join(", ")); // Join notes into a comma-separated string
+
+        // Reset Selection
+        selectedNotes = [];
+        notes.forEach(button => {
+            button.classList.remove("selected");
+            button.style.backgroundColor = ""; // Reset background color
+            button.style.color = ""; // Reset text color
+        });
+    });
+
+    // Function to fetch recommendation from the backend
     async function getRecommendation(userMessage) {
-        console.log("User input being sent:", userMessage);  // Debugging log
+        console.log("User input being sent:", userMessage); // Debugging log
 
         try {
-            const response = await fetch("https://98f8-46-193-3-89.ngrok-free.app/recommend", {
+            const response = await fetch("https://a564-46-193-3-89.ngrok-free.app/recommend", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
                 body: JSON.stringify({ message: userMessage }) // Send user input as JSON
             });

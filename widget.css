@@ -1,89 +1,75 @@
-/* Floating button */
-.toggle-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #646567;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Widget container */
-.widget-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-family: Arial, sans-serif;
-}
-
-/* Widget header */
-.widget-header {
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 12px;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    background: #f8f9fa;
+    height: 100vh;
+    margin: 0;
 }
 
-.widget-header button {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+.widget-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
 }
 
-/* Widget content */
-.widget-content {
-    padding: 12px;
-    font-size: 14px;
-}
-
-/* Input area */
-.input-container {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background: #f8f9fa;
-}
-
-.input-container input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.input-container button {
-    background: #646567;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-    margin-left: 8px;
-}
-
-/* Response box */
-#responseContainer {
-    padding: 10px;
-    font-size: 14px;
+.widget-title {
+    font-size: 24px;
+    margin-bottom: 10px;
     color: #333;
 }
 
-/* Hide widget by default */
-.hidden {
-    display: none;
+.widget-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.note-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.note {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.note:hover {
+    background-color: #ddd;
+}
+
+.send-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+    background-color: #555;
+}
+
+.response-container {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
 }

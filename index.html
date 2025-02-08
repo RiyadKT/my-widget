@@ -3,33 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nerolia Widget</title>
-
-    <link rel="stylesheet" href="widget.css">
+    <title>Perfume Recommender</title>
+    <link rel="stylesheet" href="widget.css"> <!-- External CSS -->
 </head>
 <body>
 
-    <!-- Floating Button -->
-    <button id="toggleWidget" class="toggle-button">💬</button>
 
-    <!-- Widget -->
-    <div id="widget" class="widget-container hidden">
-        <div class="widget-header">
-            <span>AI Assistant</span>
-            <button id="closeWidget">✖</button>
+    <!-- Widget Container -->
+    <div id="widget" class="widget-container elegant">
+        <h2 class="widget-title">Discover Your Signature Scent</h2>
+        <p class="widget-subtitle">Select the notes that define your perfect fragrance:</p>
+        
+        <!-- Note Buttons -->
+        <div id="note-container" class="note-container">
+            <button class="note" data-value="Floral">Floral</button>
+            <button class="note" data-value="Oriental">Oriental</button>
+            <button class="note" data-value="Woody">Woody</button>
+            <button class="note" data-value="Hesperidic">Hesperidic</button>
+            <button class="note" data-value="Fougere">Fougère</button>
+            <button class="note" data-value="Chypre">Chypré</button>
+            <button class="note" data-value="Gourmand">Gourmand</button>
         </div>
-        <div class="widget-content">
-            <p> What perfume would you like?</p>
-        </div>
-        <div class="input-container">
-            <input type="text" id="userInput" placeholder="Ask for recommendations...">
-            <button id="sendButton">🚀</button>
-        </div>
-        <div id="responseContainer"></div>
+
+        <!-- Send Button -->
+        <button id="findPerfumeButton" class="send-button">Find My Perfume</button>
+
+        
+        
+
+        <!-- Response Container -->
+        <div id="responseContainer" class="response-container"></div>
     </div>
 
-    <script src="widget.js">
-    </script>
-
+    <script src="widget.js"></script> <!-- JavaScript -->
 </body>
 </html>
