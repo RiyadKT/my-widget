@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerolia Widget</title>
+
+    <link rel="stylesheet" href="widget.css">
+</head>
+<body>
+
+    <!-- Floating Button -->
+    <button id="toggleWidget" class="toggle-button">💬</button>
+
+    <!-- Widget -->
+    <div id="widget" class="widget-container hidden">
+        <div class="widget-header">
+            <span>AI Assistant</span>
+            <button id="closeWidget">✖</button>
+        </div>
+        <div class="widget-content">
+            <p> What perfume would you like?</p>
+        </div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Ask for recommendations...">
+            <button id="sendButton">🚀</button>
+        </div>
+        <div id="responseContainer"></div>
+    </div>
+
+    <script src="widget.js">
+    </script>
+
+</body>
+</html>

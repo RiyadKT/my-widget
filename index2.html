@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerolia Widget</title>
+    <style>
+        /* Widget Container */
+        .widget-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            font-family: Arial, sans-serif;
+            display: none; /* ✅ Start hidden */
+        }
+
+        /* Header */
+        .widget-header {
+            background-color: #f0f0f0;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .widget-header button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Floating Button */
+        .toggle-button {
+            position: fixed;
+            bottom: 25px;
+            right: 80px;
+            background: #555;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        /* Full iframe to load Streamlit */
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Button to Open Widget -->
+    <button id="toggleWidget" class="toggle-button">💬</button>
+
+    <!-- Floating Widget -->
+    <div id="widget" class="widget-container">
+        <div class="widget-header">
+            Nerolia
+            <button id="closeWidget">✖</button>
+        </div>
+
+        <!-- Embed Streamlit App -->
+        <iframe id="widgetIframe" class="iframe-container"></iframe>
+    </div>
+
+    <script>
+        const widget = document.getElementById("widget");
+        const toggleButton = document.getElementById("toggleWidget");
+        const closeButton = document.getElementById("closeWidget");
+        const iframe = document.getElementById("widgetIframe");
+
+        // ✅ Set your Streamlit URL
+        const STREAMLIT_URL = "http://10.192.233.252:8501";
+        iframe.src = STREAMLIT_URL;
+
+        // ✅ Show widget & hide bubble when opening
+        toggleButton.addEventListener("click", () => {
+            widget.style.display = "block"; // Show widget
+            toggleButton.style.display = "none"; // Hide bubble
+        });
+
+        // ✅ Close widget & show bubble when clicking "✖"
+        closeButton.addEventListener("click", () => {
+            widget.style.display = "none"; // Hide widget
+            toggleButton.style.display = "block"; // Show bubble
+        });
+    </script>
+
+</body>
+</html>
