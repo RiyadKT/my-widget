@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 import openai
 import pandas as pd
-
+from fuzzywuzzy import process
 
 def recommend_perfume(adjectives):
     perfume_recommendations = {
@@ -25,6 +25,11 @@ def recommend_perfume(adjectives):
 
     return matched_perfumes[0]  # Return the first match for now
 
+
+
+
+
+
 def classify_perfume(adjectives):
     df = pd.read_csv("perfumes.csv")
     
@@ -32,14 +37,14 @@ def classify_perfume(adjectives):
     client = openai.AzureOpenAI(
     api_key="",
     api_version="2024-08-01-preview",
-    azure_endpoint="https://openaiensaeprojettutorefvillenave.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2024-08-01-preview"
+    azure_endpoint=""
     )
 
     prompt = f"""
     You are an expert perfumer. Given these perfume characteristics: {adjectives},
     recommend the best matching perfume from the following dataset:
     
-    {"".join([x[0] for x in df.index])}
+    {" ".join([x[0] for x in df.index])}
 
     Only return the perfume name.
     """
@@ -50,8 +55,12 @@ def classify_perfume(adjectives):
             {"role": "user", "content": prompt},
         ]
     )
+    
+    brands = [x[0] for x in df.index]
+    sentence = response.choices[0].message.content.strip()
+    
 
-    return response.choices[0].message.content.strip()
+    return max([(process.extractOne(brand,sentence.split(),scorer=process.fuzz.partial_ratio)[1],brand) for brand in brands])[1]
 
 
 

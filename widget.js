@@ -1,63 +1,78 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const toggleWidget = document.getElementById("toggleWidget");
-    const widget = document.getElementById("widget");
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleWidgetButton = document.getElementById('toggleWidget');
+    const widget = document.getElementById('widget');
     const closeWidget = document.getElementById("closeWidget");
+    const widgetBubble = document.getElementById("widgetBubble");
+    const toggleWidget = document.getElementById("toggleWidget");
+    const findPerfumeButton = document.getElementById('findPerfumeButton');
+    const noteContainer = document.getElementById('note-container');
+    const perfumeDisplay = document.getElementById('perfumeDisplay');
+    const goBackButton = document.getElementById('goBackButton');   
     const notes = document.querySelectorAll(".note"); // Select all note buttons
-    const sendButton = document.getElementById("findPerfumeButton"); // Send button
     const responseContainer = document.getElementById("responseContainer");
-
-    let selectedNotes = []; // Array to store selected notes
+    
+    
+    let selectedNotes = []; // Track selected notes
 
   
+    
+    // Open the widget when clicking the bubble
+    widgetBubble.addEventListener("click", function() {
+        widget.classList.remove("hidden");
+        widgetBubble.classList.add("hidden"); // Hide bubble when widget is open
+    });
+
+    // Close the widget when clicking the close button
+    closeWidget.addEventListener("click", function() {
+        widget.classList.add("hidden");
+        widgetBubble.classList.remove("hidden"); // Show bubble when widget is closed
+    });
+    
+
+    // Go back to notes
+    goBackButton.addEventListener('click', () => {
+        noteContainer.style.display = 'flex';
+        findPerfumeButton.classList.remove("hidden")
+        perfumeDisplay.classList.add('hidden');
+        responseContainer.innerHTML = ""; // Clear any error message
+        selectedNotes = []; // Clear selected notes array
+        notes.forEach(button => {
+            button.classList.remove("selected"); // Remove selected state
+        });
+    });
 
     // Handle Note Selection
     notes.forEach(button => {
         button.addEventListener("click", function () {
-            const note = this.getAttribute("data-value"); // Get the note value
+            const note = this.getAttribute("data-value"); // Get note value
 
             if (selectedNotes.includes(note)) {
-                // If the note is already selected, deselect it
+                // Deselect the note
                 selectedNotes = selectedNotes.filter(n => n !== note);
                 this.classList.remove("selected");
-                this.style.backgroundColor = ""; // Reset background color
-                this.style.color = ""; // Reset text color
             } else {
-                // If the note is not selected, select it
+                // Select the note
                 selectedNotes.push(note);
                 this.classList.add("selected");
-                this.style.backgroundColor = "black"; // Set background to black
-                this.style.color = "white"; // Set text to white
             }
         });
     });
 
-    // Send Selection to Backend
-    sendButton.addEventListener("click", async function () {
+    // Find perfume
+    findPerfumeButton.addEventListener('click', async () => {
+        const selectedNotes = Array.from(document.querySelectorAll('.note.selected')).map(note => note.dataset.value);
+        const userMessage = `I'm looking for a perfume with the following notes: ${selectedNotes.join(', ')}`;
+        
         if (selectedNotes.length === 0) {
-            // If no notes are selected, show an error message
             responseContainer.innerHTML = "<p>Please select at least one note.</p>";
             return;
         }
-
-        // Call the getRecommendation function with the selected notes
-        await getRecommendation(selectedNotes.join(", ")); // Join notes into a comma-separated string
-
-        // Reset Selection
-        selectedNotes = [];
-        notes.forEach(button => {
-            button.classList.remove("selected");
-            button.style.backgroundColor = ""; // Reset background color
-            button.style.color = ""; // Reset text color
-        });
-    });
-
-    // Function to fetch recommendation from the backend
-    async function getRecommendation(userMessage) {
-        console.log("User input being sent:", userMessage); // Debugging log
+        
+        responseContainer.innerHTML = ""; // Clear error if valid selection
 
         try {
-            const response = await fetch("https://a564-46-193-3-89.ngrok-free.app/recommend", {
-                method: "POST",
+            const response = await fetch('https://68d3-46-193-3-89.ngrok-free.app/recommend', {
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
@@ -72,11 +87,37 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
             console.log("Server response:", data);
 
-            // Display recommendation in the widget
-            responseContainer.innerHTML = `<p><strong>Recommendation:</strong> ${data.recommendation}</p>`;
+            // Hide note buttons and show perfume display
+            noteContainer.style.display = "none"; // Hide note buttons
+            findPerfumeButton.classList.add("hidden"); // Hide button
+            perfumeDisplay.classList.remove("hidden"); // Show perfume display
+
+            // Update perfume name and image
+            const perfumeName = document.getElementById("perfumeName");
+            const perfumeImage = document.getElementById("perfumeImage");
+            perfumeName.textContent = data.recommendation;
+            perfumeImage.src = getPerfumeImage(data.recommendation); // Get image URL based on recommendation
         } catch (error) {
             console.error("Fetch Error:", error);
-            responseContainer.innerHTML = "<p>Error fetching recommendation. Please try again.</p>";
+            displayError("Error fetching recommendation. Please try again.");
         }
+    });
+
+    // Function to get perfume image URL based on recommendation
+    function getPerfumeImage(recommendation) {
+        const perfumeImages = {
+            "Chanel No. 5": "images/chanel-no5.jpg",
+            "YSL La Nuit de l'Homme": "images/ysl-opium.jpg",
+            "Acqua di Gio.": "images/acqua-di-gio.jpg",
+            "Dior Sauvage": "images/dior-sauvage.jpg",
+            "Mugler Angel": "images/mugler-angel.jpg"
+        };
+
+        return perfumeImages[recommendation] || "images/default.jpg"; // Fallback to a default image
+    }
+
+    // Function to display error messages inside the widget
+    function displayError(message) {
+        responseContainer.innerHTML = `<p style="color: red;">${message}</p>`;
     }
 });

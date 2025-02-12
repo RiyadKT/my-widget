@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif; /* Restore original font */
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
@@ -8,7 +8,52 @@ body {
     margin: 0;
 }
 
+/* Bubble Style */
+.widget-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.widget-bubble:hover {
+    background-color: #555;
+}
+
+/* Close Button (Top-Right) */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Initially Hidden Widget */
+.hidden {
+    display: none !important;
+}
+
+/* Widget Styling */
 .widget-container {
+    position: fixed;
+    bottom: 80px; /* Ensures it doesn't overlap the bubble */
+    right: 20px;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -16,20 +61,14 @@ body {
     text-align: center;
     max-width: 400px;
     width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.widget-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.widget-subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
+/* Button Styling */
 .note-container {
     display: flex;
     flex-wrap: wrap;
@@ -38,18 +77,25 @@ body {
 }
 
 .note {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; /* Default light gray */
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
     color: #333;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Hover Effect */
 .note:hover {
-    background-color: #ddd;
+    background-color: #ddd; /* Slightly darker on hover */
+}
+
+/* Clicked/Selected Effect */
+.note.selected {
+    background-color: black !important; /* Turns black when clicked */
+    color: white !important; /* Text turns white */
 }
 
 .send-button {
@@ -68,8 +114,19 @@ body {
     background-color: #555;
 }
 
+/* Perfume Display */
+.perfume-display img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
 .response-container {
-    margin-top: 20px;
+    margin-top: 10px; /* Space between button and message */
     font-size: 14px;
     color: #333;
+    text-align: center;
+    min-height: 20px; /* Ensure space is reserved */
 }

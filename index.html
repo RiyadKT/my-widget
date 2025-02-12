@@ -8,9 +8,13 @@
 </head>
 <body>
 
+    <!-- Widget Bubble (Initially Visible) -->
+    <button id="widgetBubble" class="widget-bubble hidden">💬</button>
 
-    <!-- Widget Container -->
+    <!-- Widget Container (Initially Visible) -->
     <div id="widget" class="widget-container elegant">
+        <button id="closeWidget" class="close-button">&times;</button>
+        
         <h2 class="widget-title">Discover Your Signature Scent</h2>
         <p class="widget-subtitle">Select the notes that define your perfect fragrance:</p>
         
@@ -27,12 +31,15 @@
 
         <!-- Send Button -->
         <button id="findPerfumeButton" class="send-button">Find My Perfume</button>
-
-        
-        
-
-        <!-- Response Container -->
         <div id="responseContainer" class="response-container"></div>
+        <!-- Perfume Display -->
+        <div id="perfumeDisplay" class="perfume-display hidden">
+            <h3 id="perfumeName"></h3>
+            <img id="perfumeImage" src="" alt="Perfume Image">
+            
+            <!-- Go Back Button -->
+            <button id="goBackButton" class="go-back-button">Go Back to Notes</button>
+        </div>
     </div>
 
     <script src="widget.js"></script> <!-- JavaScript -->
